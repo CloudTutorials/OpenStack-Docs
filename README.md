@@ -72,5 +72,17 @@ If the article is not correct please give feedback to the author of the article 
 If the article is correct please approve the pull request and merge it into the main branch.
 
 # Running the site locally
-To run the site locally for testing purposes you need to install jekyll.
-Please follow the instructions from [github](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll) on how to run to site locally.
+
+To run the site locally for testing purposes you need to install Jekyll.
+
+## Docker (recommended)
+
+If you have Docker installed you can run the following command to run the site locally on port 4000:
+
+```bash
+docker run -it --rm -v "$PWD":/usr/src/app -p "4000:4000" starefossen/github-pages
+```
+
+## Manually
+
+Please follow the instructions from [GitHub](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll) on how to run to site locally.
