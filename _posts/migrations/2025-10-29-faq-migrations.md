@@ -20,9 +20,9 @@ Below you will find answers to the most frequently asked questions.
 
 ## TL;DR, can you give me a short summary?
 
-  * Your instance will be migrated to a boot-from-volume instance.
+  * Your instance will be migrated to a new region.
   * If you have a floating IP we will migrate it.
-  * We have created a new project for you on the new platform.
+  * We will enable your project on the new platform.
   * If you use custom images or a snapshot to boot your instance from, we will migrate those glance images as well.
   * If you have connected your instance to an internal network, we will extend that network into the new region.
   * If you have a router for internet access on your network the public IP will change.
@@ -36,8 +36,8 @@ Below you will find answers to the most frequently asked questions.
   * If you have a HA setup, there are some caveats.
   * Load balancers will be migrated once all instances have been migrated and will have some minutes of downtime.
   * For HEAT stacks, we will only migrate resources, not the stacks. 
+  * The region and availability zones will change name, updates to configuration files is needed.
   
-
 
 ## Not all my instances have the migration metadata, what’s the reason?
 
@@ -133,7 +133,7 @@ Yes, your internal network will be expanded into the new region.
 
 ## I don’t have any projects in new region, do I have to create a new one?
 
-No, if you don’t have any projects created in our new region, we have already created a project for your convenience.
+No, if you don’t have any projects created in our new region, we will enable your project in the new region.
 
 ## I have multiple projects in the new region, can you migrate my current resources to my existing project?
 
@@ -150,6 +150,15 @@ Yes, but only if the image is still available (not deleted).
 ## Do I keep my current IP addresses?
 
 Yes, all of your public (floating) and internal IP addresses will be migrated.
+
+## What will happen when I have a floating IP address without a router?
+
+Unfortunattely, the AMS region no longer supports the creation of a floating IP without a router. We will create a router for every network where floating IPs are created without a router, and connect it to the floating network. An additional Public IPv4 address will be added to your new bill.
+
+## I have OpenStack cmd tools / terraform / other tools configured, what do i need to do?
+When using API tools, you need to add or change the region to your configuration files. You can find a manual on ho wto configure CLI tools at: [Using the OpenStack CLI article](
+    {{ '/articles/using-the-cli-linux' | relative_url }}
+).
 
 ## I would like to migrate all my resources ASAP, is that possible?
 
