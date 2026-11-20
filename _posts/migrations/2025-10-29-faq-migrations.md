@@ -33,6 +33,7 @@ Below you will find answers to the most frequently asked questions.
   * On Windows guests the admin password will be changed if cloudbase-init was not disabled.
   * Windows instances might require reactivation of the license as the hardware of the VM is replaced.
   * Windows driveletters of additional volumes might shift after migration.
+  * On Windows instances using IPv6, disable randomized identifiers prior to migration so DHCP keeps working.
   * We will use ICMP ping to determine if your instance is up and running, please prepare your instance accordingly.
   * We will check commonly used ports (like port 22, 80, 443, etc).
   * If you have a HA setup, there are some caveats.
@@ -186,6 +187,16 @@ When your virtual machine is migrated, a new virtual machine is created on our d
 ## What happened to my Windows drive letter assignment?
 
 When we migrate your instance to the new platform, Windows will see some new hardware. All hard drives are in the same order as they were before the migrations, but sometimes Windows does not allocate the drive letters as they were before. To reconfigure the drive letters, please go into the Server Management and re-allocate the proper drive letters manually. This only needs to happen once, and the new instance will remember it for future reboots.
+
+## What do I need to do on Windows if my instance uses IPv6?
+
+If your Windows instance uses IPv6, please run the following PowerShell commands as an administrator before the migration to ensure DHCP continues to work properly:
+
+```powershell
+Set-NetIPv6Protocol -RandomizeIdentifiers Disabled
+```
+
+By default, Windows generates randomized IPv6 interface identifiers and temporary addresses. When the instance is migrated and Windows detects new virtual network hardware, it would otherwise generate a new randomized identifier that does not match the MAC-based address expected by the platform, which can prevent DHCP from working correctly. Disabling these settings ensures a consistent, MAC-based identifier is used.
 
 ## Will my SSH host key change if cloud-init is enabled?
 
